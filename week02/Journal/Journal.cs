@@ -1,6 +1,8 @@
+
 public class Journal
 {
     public List<Entry> _entries = new List<Entry>();
+
     public void AddEntry(Entry entry)
     {
         _entries.Add(entry);
@@ -13,7 +15,8 @@ public class Journal
             entry.Display();
         }
     }
-        public void SaveToFile(string filename)
+
+    public void SaveToFile(string filename)
     {
         using (StreamWriter outputFile = new StreamWriter(filename))
         {
@@ -28,20 +31,29 @@ public class Journal
 
     public void LoadFromFile(string filename)
     {
+        if (!File.Exists(filename))
+        {
+            Console.WriteLine("File not found.");
+            return;
+        }
+
         _entries.Clear();
 
         string[] lines = File.ReadAllLines(filename);
 
         foreach (string line in lines)
         {
-            string[] parts = line.Split("|");
+            string[] parts = line.Split('|');
 
-            Entry entry = new Entry();
-            entry._date = parts[0];
-            entry._promptText = parts[1];
-            entry._entryText = parts[2];
+            if (parts.Length == 3)
+            {
+                Entry entry = new Entry();
+                entry._date = parts[0];
+                entry._promptText = parts[1];
+                entry._entryText = parts[2];
 
-            _entries.Add(entry);
+                _entries.Add(entry);
+            }
         }
 
         Console.WriteLine("Journal loaded successfully.");
