@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 
@@ -12,10 +13,11 @@ public class PromptGenerator
         "If I had one thing I could do over today, what would it be?"
     };
 
+    private Random random = new Random();
+
     public string GetRandomPrompt()
-{
-    Random random = new Random();
-    int index = random.Next(_prompts.Count);
-    return _prompts[index];
-}
+    {
+        int index = random.Next(_prompts.Count);
+        return _prompts[index];
+    }
 }
