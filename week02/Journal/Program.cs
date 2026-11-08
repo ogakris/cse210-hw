@@ -1,6 +1,7 @@
-﻿Journal journal = new Journal();
 
+Journal journal = new Journal();
 PromptGenerator promptGenerator = new PromptGenerator();
+
 bool running = true;
 
 while (running)
@@ -15,39 +16,57 @@ while (running)
 
     Console.Write("What would you like to do? ");
 
-    string choice = Console.ReadLine()!;
+    string choice = Console.ReadLine() ?? "";
 
     switch (choice)
     {
         case "1":
-    string prompt = promptGenerator.GetRandomPrompt();
-    Console.WriteLine(prompt);
+        {
+            string prompt = promptGenerator.GetRandomPrompt();
+            Console.WriteLine(prompt);
 
-    Console.Write("> ");
-    string response = Console.ReadLine();
+            Console.Write("> ");
+            string response = Console.ReadLine() ?? "";
 
-    Entry entry = new Entry();
-    entry._date = DateTime.Now.ToShortDateString();
-    entry._promptText = prompt;
-    entry._entryText = response;
+            Entry entry = new Entry();
+            entry._date = DateTime.Now.ToShortDateString();
+            entry._promptText = prompt;
+            entry._entryText = response;
 
-    journal.AddEntry(entry);
+            journal.AddEntry(entry);
             break;
+        }
+
         case "2":
+        {
             journal.DisplayAll();
             break;
+        }
+
         case "3":
-    Console.Write("Enter filename: ");
-    string loadFile = Console.ReadLine();
-    journal.LoadFromFile(loadFile);
+        {
+            Console.Write("Enter filename: ");
+            string loadFile = Console.ReadLine() ?? "";
+            journal.LoadFromFile(loadFile);
             break;
+        }
+
         case "4":
-    Console.Write("Enter filename: ");
-    string saveFile = Console.ReadLine();
-    journal.SaveToFile(saveFile);
+        {
+            Console.Write("Enter filename: ");
+            string saveFile = Console.ReadLine() ?? "";
+            journal.SaveToFile(saveFile);
             break;
+        }
+
         case "5":
+        {
             running = false;
+            break;
+        }
+
+        default:
+            Console.WriteLine("Invalid choice. Please try again.");
             break;
     }
 }
