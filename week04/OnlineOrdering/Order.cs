@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,7 +13,6 @@ namespace EncapsulationOrdering
         public Order(Customer customer)
         {
             _customer = customer;
-            _comments = new List<Product>(); // Initializes internal list
             _products = new List<Product>();
         }
 
@@ -24,6 +24,7 @@ namespace EncapsulationOrdering
         public decimal CalculateTotalCost()
         {
             decimal productSubtotal = 0;
+
             foreach (Product product in _products)
             {
                 productSubtotal += product.GetTotalCost();
@@ -37,20 +38,25 @@ namespace EncapsulationOrdering
         public string GetPackingLabel()
         {
             StringBuilder sb = new StringBuilder();
+
             sb.AppendLine("--- PACKING LABEL ---");
+
             foreach (Product product in _products)
             {
                 sb.AppendLine($"Product: {product.GetName()} | ID: {product.GetProductId()}");
             }
+
             return sb.ToString();
         }
 
         public string GetShippingLabel()
         {
             StringBuilder sb = new StringBuilder();
+
             sb.AppendLine("--- SHIPPING LABEL ---");
             sb.AppendLine(_customer.GetName());
             sb.AppendLine(_customer.GetAddress().GetFullAddress());
+
             return sb.ToString();
         }
     }
