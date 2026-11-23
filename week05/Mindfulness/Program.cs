@@ -1,3 +1,4 @@
+
 using System;
 
 namespace MindfulnessApp
@@ -26,17 +27,21 @@ namespace MindfulnessApp
                         BreathingActivity breathing = new BreathingActivity();
                         breathing.Run();
                         break;
+
                     case "2":
-                        ReflectionActivity reflection = new ReflectionActivity();
+                        ReflectingActivity reflection = new ReflectingActivity();
                         reflection.Run();
                         break;
+
                     case "3":
                         ListingActivity listing = new ListingActivity();
                         listing.Run();
                         break;
+
                     case "4":
                         Console.WriteLine("Thank you for using the Mindfulness Program. Goodbye!");
                         break;
+
                     default:
                         Console.WriteLine("Invalid option. Press Enter to try again.");
                         Console.ReadLine();
