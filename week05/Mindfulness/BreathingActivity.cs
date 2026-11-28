@@ -1,32 +1,40 @@
+
 using System;
+using System.Threading;
 
 namespace MindfulnessApp
 {
     public class BreathingActivity : Activity
     {
-        public BreathingActivity() 
-            : base("Breathing Activity", "This activity will help you relax by walking your through breathing in and out slowly. Clear your mind and focus on your breathing.")
+        public BreathingActivity()
+            : base(
+                "Breathing Activity",
+                "This activity will help you relax by walking you through " +
+                "breathing in and out slowly. Clear your mind and focus " +
+                "on your breathing.")
         {
         }
 
-        public void Run()
+        public override void RunActivity()
         {
             DisplayStartingMessage();
 
             DateTime startTime = DateTime.Now;
-            DateTime endTime = startTime.AddSeconds(_duration);
 
-            while (DateTime.Now < endTime)
+            while ((DateTime.Now - startTime).TotalSeconds < Duration)
             {
-                Console.Write("Breathe in...");
-                ShowCountDown(4);
-                Console.WriteLine();
+                Console.WriteLine("Breathe in...");
+                ShowCountdown(4);
 
-                if (DateTime.Now >= endTime) break;
+                if ((DateTime.Now - startTime).TotalSeconds >= Duration)
+                {
+                    break;
+                }
 
-                Console.Write("Breathe out...");
-                ShowCountDown(6);
                 Console.WriteLine();
+                Console.WriteLine("Breathe out...");
+                ShowCountdown(4);
+
                 Console.WriteLine();
             }
 
