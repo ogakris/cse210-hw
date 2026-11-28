@@ -1,67 +1,88 @@
+
 using System;
-using System.Collections.Generic;
 using System.Threading;
 
 namespace MindfulnessApp
 {
-    public class Activity
+    public abstract class Activity
     {
         private string _name;
         private string _description;
-        protected int _duration;
+        private int _duration;
 
-        public Activity(string name, string description)
+        protected Activity(string name, string description)
         {
             _name = name;
             _description = description;
+            _duration = 0;
         }
 
-        public void DisplayStartingMessage()
+        protected int Duration
+        {
+            get { return _duration; }
+            set { _duration = value; }
+        }
+
+        protected void DisplayStartingMessage()
         {
             Console.Clear();
-            Console.WriteLine($"Welcome to the {_name}.\n");
-            Console.WriteLine($"{_description}\n");
+
+            Console.WriteLine($"Welcome to the {_name}.");
+            Console.WriteLine();
+            Console.WriteLine(_description);
+            Console.WriteLine();
+
             Console.Write("How long, in seconds, would you like for your session? ");
-            
-            while (!int.TryParse(Console.ReadLine(), out _duration) || _duration <= 0)
+
+            int duration;
+
+            while (!int.TryParse(Console.ReadLine(), out duration)
+                   || duration <= 0)
             {
-                Console.Write("Please enter a valid positive number of seconds: ");
+                Console.Write("Please enter a positive number of seconds: ");
             }
 
+            _duration = duration;
+
             Console.Clear();
+
             Console.WriteLine("Get ready...");
             ShowSpinner(3);
+
             Console.WriteLine();
         }
 
-        public void DisplayEndingMessage()
+        protected void DisplayEndingMessage()
         {
             Console.WriteLine();
-            Console.WriteLine("Well done!!");
+            Console.WriteLine("Well done!");
+            ShowSpinner(2);
+
+            Console.WriteLine();
+            Console.WriteLine($"You have completed the {_name}.");
+            Console.WriteLine($"You spent {_duration} seconds on this activity.");
+
             ShowSpinner(3);
-            Console.WriteLine();
-            Console.WriteLine($"You have completed another {_duration} seconds of the {_name}.");
-            ShowSpinner(4);
         }
 
-        public void ShowSpinner(int seconds)
+        protected void ShowSpinner(int seconds)
         {
-            List<string> animationStrings = new List<string> { "|", "/", "-", "\\" };
-            DateTime startTime = DateTime.Now;
-            DateTime endTime = startTime.AddSeconds(seconds);
+            char[] spinner = { '|', '/', '-', '\\' };
 
-            int i = 0;
+            DateTime endTime = DateTime.Now.AddSeconds(seconds);
+            int index = 0;
+
             while (DateTime.Now < endTime)
             {
-                string s = animationStrings[i];
-                Console.Write(s);
+                Console.Write(spinner[index % spinner.Length]);
                 Thread.Sleep(250);
-                Console.Write("\b \b");
-                i = (i + 1) % animationStrings.Count;
+                Console.Write("\b");
+
+                index++;
             }
         }
 
-        public void ShowCountDown(int seconds)
+        protected void ShowCountdown(int seconds)
         {
             for (int i = seconds; i > 0; i--)
             {
@@ -70,5 +91,7 @@ namespace MindfulnessApp
                 Console.Write("\b \b");
             }
         }
+
+        public abstract void RunActivity();
     }
 }
